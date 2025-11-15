@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Semua Berita & Kegiatan PPM - BAPPEDA</title>
+    <link rel="stylesheet" href="style.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        /* Menggunakan sebagian besar gaya grid dari halaman admin untuk konsistensi */
+        
+        :root {
+            --primary-color: #0b4f8d; /* Biru Bappeda */
+            --bg-light: #f4f7f6;
+        }
+
+        .page-header {
+            background-color: var(--bg-light);
+            padding: 40px 0;
+            text-align: center;
+            border-bottom: 2px solid var(--primary-color);
+        }
+        .page-header h1 {
+            color: var(--primary-color);
+            font-size: 2.5em;
+        }
+        .page-header p {
+            color: #555;
+            margin-top: 10px;
+        }
+
+        .news-content-area {
+            padding: 50px 0;
+            background-color: white; /* Latar belakang putih untuk konten */
+        }
+        
+        /* Gaya Grid 3 Kolom Berita */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 30px; 
+        }
+
+        .news-card {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-decoration: none; /* Menghilangkan underline pada link */
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+        }
+        .news-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+
+        .news-card img {
+            width: 100%;
+            height: 200px; 
+            object-fit: cover;
+        }
+        
+        .card-content {
+            padding: 15px;
+            flex-grow: 1;
+        }
+
+        .card-content h4 {
+            color: var(--primary-color);
+            margin: 5px 0 10px 0;
+            font-size: 1.2em;
+        }
+
+        .card-content p {
+            font-size: 0.9em;
+            color: #777;
+            margin: 0;
+        }
+        
+        /* Responsif */
+        @media (max-width: 992px) {
+            .news-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 600px) {
+            .news-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="container navbar">
+            <div class="logo">
+                <img src="foto/logo 1.png" alt="Logo Bappeda"> <span></span>
+            </div>
+            <nav class="main-nav">
+                <a href="index.html">BERANDA</a>
+                <a href="profil.html">PROFIL</a>
+                <a href="programkerja.html">PROGRAM KERJA</a>
+                <a href="publikasi.html">PUBLIKASI</a>
+                <a href="kontak.html">KONTAK</a>
+                <a href="login.html">login</a> 
+            </nav>
+            <div class="nav-extra">
+                <button class="search-btn"><i class="fas fa-search"></i></button>
+                <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>KEGIATAN PPM </h1>
+            <p>Informasi seputar Perencanaan Pemerintahan dan Pembangunan Manusia BAPPEDA.</p>
+        </div>
+    </section>
+
+    <div class="container news-content-area">
+        
+        <div class="news-grid" id="news-list-container">
+            </div>
+        
+        <p id="no-news-message" style="text-align: center; color: #999; margin-top: 50px; display: none;">Saat ini belum ada berita yang dipublikasikan.</p>
+        
+    </div>
+    
+    <footer class="footer">
+        <div class="container copyright">
+            © 2025 BAPPEDA. Hak Cipta Dilindungi Undang-Undang.
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const newsListContainer = document.getElementById('news-list-container');
+            const noNewsMessage = document.getElementById('no-news-message');
+
+            function loadNewsData() {
+                // Mengambil data dari localStorage, kunci yang sama digunakan admin
+                const storedNews = localStorage.getItem('bappeda_ppm_news');
+                let newsData = [];
+
+                if (storedNews) {
+                    newsData = JSON.parse(storedNews);
+                } else {
+                    // Jika localStorage kosong, gunakan data default (seperti admin)
+                    newsData = [
+                        { id: 1, title: 'Rapat Koordinasi Penyusunan RPJMD', date: '2025-09-12', category: 'Umum', content: 'Perumusan kebijakan teknis perencanaan di bidang kesehatan, pendidikan, sosial...', image: 'foto/1.jpg' },
+                        { id: 2, title: 'Sosialisasi Perda Tata Ruang Terbaru', date: '2025-07-31', category: 'Pendidikan', content: 'Mengintegrasikan data dan analisis IPM, kesehatan, dan pendidikan...', image: 'foto/2.jpg' },
+                        { id: 3, title: 'Pelatihan Kapasitas SDM Perencanaan', date: '2025-09-29', category: 'Kesehatan', content: 'Melaksanakan monitoring, evaluasi, dan pelaporan pelaksanaan perencanaan...', image: 'foto/3.jpg' }
+                    ];
+                     // Simpan data default ini agar konsisten saat admin dibuka
+                     localStorage.setItem('bappeda_ppm_news', JSON.stringify(newsData));
+                }
+                renderNewsList(newsData);
+            }
+
+            function renderNewsList(newsData) {
+                newsListContainer.innerHTML = ''; 
+                
+                // Sortir agar berita terbaru selalu di atas
+                newsData.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+                if (newsData.length === 0) {
+                    noNewsMessage.style.display = 'block';
+                } else {
+                    noNewsMessage.style.display = 'none';
+                    newsData.forEach(news => {
+                        const newsItem = document.createElement('a'); // Menggunakan <a> untuk link ke detail
+                        newsItem.className = 'news-card';
+                        newsItem.href = `detail_berita.html?id=${news.id}`; // Link ke halaman detail (jika ada)
+                        
+                        const formattedDate = new Date(news.date).toLocaleDateString('id-ID', {
+                            day: 'numeric', month: 'long', year: 'numeric'
+                        });
+                        
+                        newsItem.innerHTML = `
+                            <img src="${news.image}" alt="${news.title}">
+                            <div class="card-content">
+                                <h4>${news.title}</h4>
+                                <p><i class="fas fa-calendar-alt"></i> ${formattedDate}</p>
+                            </div>
+                        `;
+                        newsListContainer.appendChild(newsItem);
+                    });
+                }
+            }
+
+            // Memuat ulang data setiap kali halaman dimuat
+            loadNewsData();
+            
+            // Opsional: Jika Anda ingin halaman ini update secara dinamis saat admin mengubah data di tab lain,
+            // Anda bisa menambahkan event listener untuk perubahan localStorage (fitur lanjutan).
+            window.addEventListener('storage', function(e) {
+                if (e.key === 'bappeda_ppm_news') {
+                    loadNewsData();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

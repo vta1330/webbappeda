@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Publikasi Bidang PPM - BAPPEDA</title>
+    <title>Publikasi Bidang PPM</title>
     <link rel="stylesheet" href="style.css"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
@@ -169,7 +169,6 @@
     <section class="page-header">
         <div class="container">
             <h1>DOKUMEN & PUBLIKASI BIDANG PEMBANGUNAN MANUSIA</h1>
-            <p>Akses dan unduh laporan, data, dan hasil kajian terkini terkait IPM, pendidikan, dan kesehatan.</p>
         </div>
     </section>
 
@@ -259,38 +258,92 @@
     <script src="script.js"></script>
     <script>
         // SCRIPT JAVASCRIPT UNTUK FILTER DAN PENCARIAN
-        document.addEventListener('DOMContentLoaded', function() {
-            const typeFilter = document.getElementById('type-filter');
-            const searchInput = document.getElementById('search-input');
-            const publicationList = document.getElementById('publication-list');
-            const publicationCards = publicationList.querySelectorAll('.publication-card');
+       // Di dalam tag <script> di publikasi.html
 
-            function filterAndSearch() {
-                const selectedType = typeFilter.value;
-                const searchTerm = searchInput.value.toLowerCase();
+document.addEventListener('DOMContentLoaded', function() {
+    const pubListContainer = document.getElementById('publication-list');
+    const typeFilter = document.getElementById('type-filter');
+    const searchInput = document.getElementById('search-input');
+    const storageKey = 'bappeda_ppm_publikasi'; // KUNCI HARUS SAMA DENGAN ADMIN
+    
+    // Data Mapping untuk tampilan teks
+    const typeMap = {
+        'ipm': { text: 'Laporan IPM', icon: 'fas fa-chart-line' },
+        'kesehatan': { text: 'Profil Kesehatan', icon: 'fas fa-notes-medical' },
+        'pendidikan': { text: 'Data Pendidikan', icon: 'fas fa-user-graduate' },
+        'rkpd': { text: 'Dokumen RKPD', icon: 'fas fa-book-open' }
+    };
 
-                publicationCards.forEach(card => {
-                    const cardType = card.getAttribute('data-type');
-                    const cardTitle = card.getAttribute('data-title').toLowerCase();
-                    
-                    let typeMatch = (selectedType === 'all' || cardType === selectedType);
-                    let searchMatch = cardTitle.includes(searchTerm);
+    function loadAndFilterPubData() {
+        const storedPub = localStorage.getItem(storageKey);
+        let pubData = storedPub ? JSON.parse(storedPub) : [];
 
-                    if (typeMatch && searchMatch) {
-                        card.style.display = 'block';
-                    } else {
-                        card.style.display = 'none';
-                    }
+        // Sortir data (terbaru di atas)
+        pubData.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+        const selectedType = typeFilter.value;
+        const searchTerm = searchInput.value.toLowerCase();
+        
+        pubListContainer.innerHTML = ''; // Kosongkan daftar
+
+        let foundCount = 0;
+
+        pubData.forEach(pub => {
+            const cardType = pub.type;
+            const cardTitle = pub.title.toLowerCase();
+            const typeInfo = typeMap[pub.type] || { text: 'Dokumen Lain', icon: 'fas fa-file' };
+
+            let typeMatch = (selectedType === 'all' || cardType === selectedType);
+            let searchMatch = cardTitle.includes(searchTerm);
+
+            if (typeMatch && searchMatch) {
+                const formattedDate = new Date(pub.date).toLocaleDateString('id-ID', {
+                    day: 'numeric', month: 'short', year: 'numeric'
                 });
+
+                const pubItem = document.createElement('div');
+                pubItem.className = 'publication-card';
+                // Tambahkan data-attribute untuk filter/search di UI
+                pubItem.setAttribute('data-type', pub.type); 
+                pubItem.setAttribute('data-title', pub.title); 
+                
+                pubItem.innerHTML = `
+                    <div class="cover-placeholder">
+                        <i class="${typeInfo.icon}"></i>
+                        ${typeInfo.text}
+                    </div>
+                    <div class="card-content">
+                        <h4>${pub.title}</h4>
+                        <p class="meta">Jenis: ${typeInfo.text} | Tanggal: ${formattedDate}</p>
+                        <p>${pub.summary}</p>
+                        <a href="${pub.file}" target="_blank" class="download-link"><i class="fas fa-download"></i> Unduh Dokumen (PDF)</a>
+                    </div>
+                `;
+                pubListContainer.appendChild(pubItem);
+                foundCount++;
             }
-
-            // Tambahkan event listener untuk filter dan pencarian
-            typeFilter.addEventListener('change', filterAndSearch);
-            searchInput.addEventListener('input', filterAndSearch);
-
-            // Jalankan filter saat halaman dimuat (untuk inisialisasi)
-            filterAndSearch();
         });
+
+        // Tampilkan pesan jika tidak ada hasil
+        if (foundCount === 0) {
+            pubListContainer.innerHTML = '<p style="text-align: center; grid-column: 1 / -1; color: #999; padding: 20px;">Dokumen tidak ditemukan berdasarkan filter/pencarian.</p>';
+        }
+    }
+
+    // Tambahkan event listener untuk filter dan pencarian
+    typeFilter.addEventListener('change', loadAndFilterPubData);
+    searchInput.addEventListener('input', loadAndFilterPubData);
+
+    // Load data saat halaman dimuat
+    loadAndFilterPubData();
+    
+    // Opsional: Listener untuk update jika ada perubahan di tab admin
+    window.addEventListener('storage', function(e) {
+        if (e.key === storageKey) {
+            loadAndFilterPubData();
+        }
+    });
+});
     </script>
 </body>
 </html>
