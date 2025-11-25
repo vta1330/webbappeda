@@ -3,12 +3,12 @@ document.addEventListener("DOMContentLoaded", function () {
   const typeFilter = document.getElementById("type-filter");
   const searchInput = document.getElementById("search-input");
   const publicationList = document.getElementById("publication-list");
-  const publicationCards =
-    publicationList.querySelectorAll(".publication-card");
 
   function filterAndSearch() {
     const selectedType = typeFilter.value;
     const searchTerm = searchInput.value.toLowerCase();
+    const publicationCards =
+      publicationList.querySelectorAll(".publication-card");
 
     publicationCards.forEach((card) => {
       const cardType = card.getAttribute("data-type");
@@ -29,6 +29,6 @@ document.addEventListener("DOMContentLoaded", function () {
   typeFilter.addEventListener("change", filterAndSearch);
   searchInput.addEventListener("input", filterAndSearch);
 
-  // Jalankan filter saat halaman dimuat (untuk inisialisasi)
-  filterAndSearch();
+  // Fungsi untuk dipanggil setelah publikasi dimuat
+  window.applyFilter = filterAndSearch;
 });

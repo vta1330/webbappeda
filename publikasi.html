@@ -167,10 +167,6 @@
         <div class="filter-select">
           <select id="type-filter">
             <option value="all">Filter Berdasarkan Jenis Dokumen</option>
-            <option value="ipm">Laporan IPM</option>
-            <option value="kesehatan">Profil Kesehatan</option>
-            <option value="pendidikan">Data Pendidikan</option>
-            <option value="rkpd">Dokumen RKPD</option>
           </select>
         </div>
         <div class="search-box">
@@ -184,111 +180,7 @@
       </div>
     </section>
 
-    <section class="container publication-grid" id="publication-list">
-      <div
-        class="publication-card"
-        data-type="ipm"
-        data-year="2024"
-        data-title="Laporan Indeks Pembangunan Manusia Daerah Tahun 2024"
-      >
-        <div class="cover-placeholder">
-          <i class="fas fa-chart-line"></i>
-          Laporan IPM 2024
-        </div>
-        <div class="card-content">
-          <h4>Laporan Indeks Pembangunan Manusia Daerah Tahun 2024</h4>
-          <p class="meta">Jenis: Laporan IPM | Tanggal: 10 Nov 2024</p>
-          <p>
-            Analisis komprehensif capaian pembangunan manusia diukur dari 3
-            dimensi utama: kesehatan, pendidikan, dan daya beli.
-          </p>
-          <a
-            href="dokumen/Laporan_IPM_2024.pdf"
-            target="_blank"
-            class="download-link"
-            ><i class="fas fa-download"></i> Unduh Dokumen (PDF)</a
-          >
-        </div>
-      </div>
-
-      <div
-        class="publication-card"
-        data-type="kesehatan"
-        data-year="2023"
-        data-title="Profil Kesehatan dan Stunting Daerah Tahun 2023"
-      >
-        <div class="cover-placeholder">
-          <i class="fas fa-notes-medical"></i>
-          Profil Kesehatan 2023
-        </div>
-        <div class="card-content">
-          <h4>Profil Kesehatan dan Stunting Daerah Tahun 2023</h4>
-          <p class="meta">Jenis: Profil Kesehatan | Tanggal: 01 Jan 2024</p>
-          <p>
-            Data dan analisis kinerja sektor kesehatan, termasuk data prevalensi
-            stunting dan status gizi masyarakat.
-          </p>
-          <a
-            href="dokumen/Profil_Kesehatan_2023.pdf"
-            target="_blank"
-            class="download-link"
-            ><i class="fas fa-download"></i> Unduh Dokumen (PDF)</a
-          >
-        </div>
-      </div>
-
-      <div
-        class="publication-card"
-        data-type="rkpd"
-        data-year="2025"
-        data-title="Dokumen RKPD Bab III Bidang PPM 2025"
-      >
-        <div class="cover-placeholder">
-          <i class="fas fa-book-open"></i>
-          RKPD Bidang PPM 2025
-        </div>
-        <div class="card-content">
-          <h4>Dokumen RKPD Bab III Bidang PPM 2025</h4>
-          <p class="meta">Jenis: Dokumen RKPD | Tanggal: 15 Okt 2024</p>
-          <p>
-            Bab III Rencana Kerja Pembangunan Daerah yang fokus pada isu dan
-            program prioritas Bidang PPM tahun 2025.
-          </p>
-          <a
-            href="dokumen/RKPD_PPM_2025.pdf"
-            target="_blank"
-            class="download-link"
-            ><i class="fas fa-download"></i> Unduh Dokumen (PDF)</a
-          >
-        </div>
-      </div>
-
-      <div
-        class="publication-card"
-        data-type="pendidikan"
-        data-year="2024"
-        data-title="Data Pokok Pendidikan Dasar dan Menengah Tahun 2024"
-      >
-        <div class="cover-placeholder">
-          <i class="fas fa-user-graduate"></i>
-          Data Pendidikan 2024
-        </div>
-        <div class="card-content">
-          <h4>Data Pokok Pendidikan Dasar dan Menengah Tahun 2024</h4>
-          <p class="meta">Jenis: Data Pendidikan | Tanggal: 05 Sep 2024</p>
-          <p>
-            Statistik dan data spasial mengenai jumlah sekolah, guru, dan murid
-            per jenjang di wilayah daerah.
-          </p>
-          <a
-            href="dokumen/Data_Pendidikan_2024.pdf"
-            target="_blank"
-            class="download-link"
-            ><i class="fas fa-download"></i> Unduh Dokumen (PDF)</a
-          >
-        </div>
-      </div>
-    </section>
+    <section class="container publication-grid" id="publication-list"></section>
 
     <footer class="footer">
       <div class="container footer-grid">
@@ -303,5 +195,106 @@
 
     <script src="js/script.js"></script>
     <script src="js/filter-pencarian.js"></script>
+    <script>
+      const API_BASE = "http://localhost:5000/api";
+
+      // Map untuk ikon dan teks cover berdasarkan jenis
+      const typeMap = {
+        ipm: { icon: "fa-chart-line", text: "Laporan IPM" },
+        kesehatan: { icon: "fa-notes-medical", text: "Profil Kesehatan" },
+        pendidikan: { icon: "fa-user-graduate", text: "Data Pendidikan" },
+        rkpd: { icon: "fa-book-open", text: "Dokumen RKPD" },
+      };
+
+      // Fungsi untuk format tanggal
+      function formatDate(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString("id-ID", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+        });
+      }
+
+      // Fungsi untuk render kartu publikasi
+      function renderPublicationCard(pub) {
+        const typeKey = pub.jenisDokumen.nama.toLowerCase().replace(/\s+/g, "");
+        const typeInfo = typeMap[typeKey] || {
+          icon: "fa-file",
+          text: pub.jenisDokumen.nama,
+        };
+        const year = new Date(pub.tanggal).getFullYear();
+        const card = document.createElement("div");
+        card.className = "publication-card";
+        card.setAttribute("data-type", typeKey);
+        card.setAttribute("data-year", year);
+        card.setAttribute("data-title", pub.judul);
+
+        card.innerHTML = `
+          <div class="cover-placeholder">
+            <i class="fas ${typeInfo.icon}"></i>
+            ${typeInfo.text} ${year}
+          </div>
+          <div class="card-content">
+            <h4>${pub.judul}</h4>
+            <p class="meta">Jenis: ${
+              pub.jenisDokumen.nama
+            } | Tanggal: ${formatDate(pub.tanggal)}</p>
+            <p>${pub.deskripsi}</p>
+            <a href="${pub.dokumenUrl}" target="_blank" class="download-link">
+              <i class="fas fa-download"></i> Unduh Dokumen (PDF)
+            </a>
+          </div>
+        `;
+        return card;
+      }
+
+      // Fetch jenis dokumen dan populate select
+      async function loadJenisDokumen() {
+        try {
+          const response = await fetch(`${API_BASE}/jenis-dokumen`);
+          const data = await response.json();
+          if (data.status === "success" && data.data) {
+            const select = document.getElementById("type-filter");
+            data.data.forEach((jd) => {
+              const option = document.createElement("option");
+              option.value = jd.nama.toLowerCase().replace(/\s+/g, "");
+              option.textContent = jd.nama;
+              select.appendChild(option);
+            });
+          }
+        } catch (error) {
+          console.error("Error loading jenis dokumen:", error);
+        }
+      }
+
+      // Fetch publikasi dan render
+      async function loadPublikasi() {
+        try {
+          const response = await fetch(`${API_BASE}/publikasi`);
+          const data = await response.json();
+          if (data.status === "success" && data.data) {
+            const container = document.getElementById("publication-list");
+            container.innerHTML = "";
+            data.data.forEach((pub) => {
+              const card = renderPublicationCard(pub);
+              container.appendChild(card);
+            });
+            // Panggil filter setelah publikasi dimuat
+            if (window.applyFilter) {
+              window.applyFilter();
+            }
+          }
+        } catch (error) {
+          console.error("Error loading publikasi:", error);
+        }
+      }
+
+      // Load data saat DOM ready
+      document.addEventListener("DOMContentLoaded", function () {
+        loadJenisDokumen();
+        loadPublikasi();
+      });
+    </script>
   </body>
 </html>

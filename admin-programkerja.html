@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Program Kerja - BAPPEDA</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+    <style>
+      .admin-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      .admin-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+      .btn-admin {
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+      }
+      .btn-admin:hover {
+        background-color: var(--secondary-color);
+      }
+      .btn-edit {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 3px;
+        cursor: pointer;
+        margin-right: 5px;
+      }
+      .btn-delete {
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 3px;
+        cursor: pointer;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: var(--bg-light);
+      }
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+      }
+      .modal-content {
+        background-color: white;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 500px;
+        border-radius: 5px;
+      }
+      .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      .close:hover {
+        color: black;
+      }
+      .form-group {
+        margin-bottom: 15px;
+      }
+      label {
+        display: block;
+        margin-bottom: 5px;
+      }
+      input,
+      textarea {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <div class="container navbar">
+        <div class="logo">
+          <img src="assets/logo 1.png" alt="Logo Bappeda" /> <span></span>
+        </div>
+        <nav class="main-nav">
+          <a href="index.html">BERANDA</a>
+          <a href="profil.html">PROFIL</a>
+          <a href="programkerja.html">PROGRAM KERJA</a>
+          <a href="publikasi.html">PUBLIKASI</a>
+          <a href="kontak.html">KONTAK</a>
+        </nav>
+        <div class="nav-extra">
+          <button class="search-btn"><i class="fas fa-search"></i></button>
+          <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+        </div>
+      </div>
+    </header>
+
+    <section class="page-header">
+      <div class="container">
+        <h1>Admin Program Kerja</h1>
+        <p>Kelola data program kerja BAPPEDA</p>
+      </div>
+    </section>
+
+    <section class="admin-container">
+      <div class="admin-header">
+        <h2>Daftar Program Kerja</h2>
+        <button class="btn-admin" onclick="openModal()">
+          Tambah Program Kerja
+        </button>
+      </div>
+      <table id="programKerjaTable">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Judul</th>
+            <th>Sub Judul</th>
+            <th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <div id="modal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2 id="modalTitle">Tambah Program Kerja</h2>
+        <form id="programKerjaForm">
+          <div class="form-group">
+            <label for="judul">Judul:</label>
+            <input type="text" id="judul" name="judul" required />
+          </div>
+          <div class="form-group">
+            <label for="sub_judul">Sub Judul:</label>
+            <input type="text" id="sub_judul" name="sub_judul" required />
+          </div>
+          <div class="form-group">
+            <label for="description">Deskripsi:</label>
+            <textarea
+              id="description"
+              name="description"
+              rows="4"
+              required
+            ></textarea>
+          </div>
+          <div class="form-group">
+            <label for="kategori">Kategori:</label>
+            <select id="kategori" name="kategori" required>
+              <option value="">Pilih Kategori</option>
+              <option value="pendidikan">Pendidikan</option>
+              <option value="kesehatan">Kesehatan</option>
+              <option value="sosial">Sosial & Kemiskinan</option>
+              <option value="tenaga">Ketenagakerjaan</option>
+            </select>
+          </div>
+          <button type="submit" class="btn-admin">Simpan</button>
+        </form>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <div class="container footer-grid">
+        <div class="footer-widget">
+          <h3>HUBUNGI KAMI</h3>
+          <p>
+            Komplek Kantor Bupati Kutai Kartanegara Jl. Wolter Monginsidi No.1
+            Kelurahan Timbau
+          </p>
+          <p>(0541) 664784</p>
+          <p>Email:bappeda@kukarkab.go.id</p>
+        </div>
+        <div class="footer-widget">
+          <h3>LINK TERKAIT</h3>
+          <ul>
+            <li><a href="#">e-Musrenbang</a></li>
+            <li><a href="#">Pemerintah Daerah</a></li>
+            <li><a href="#">Sistem Informasi</a></li>
+          </ul>
+        </div>
+        <div class="footer-widget">
+          <h3>PETA LOKASI</h3>
+          <div class="map-container">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2df67e9b3d1b6e49%3A0x868b8e8b0b92f70b!2sKantor%20Bappeda%20Kaltim!5e0!3m2!1sen!2sid!4v1700000000000!5m2!1sen!2sid"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </div>
+        </div>
+      </div>
+      <div class="copyright">
+        <div class="container">
+          &copy; 2025 BAPPEDA. Hak Cipta Dilindungi Undang-Undang.
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script>
+      const API_BASE = "http://localhost:5000/api"; // Adjust if needed
+      let editingId = null;
+
+      async function loadProgramKerja() {
+        try {
+          const response = await fetch(`${API_BASE}/program-kerja`);
+          const programKerja = await response.json();
+          const tbody = document.querySelector("#programKerjaTable tbody");
+          tbody.innerHTML = "";
+          programKerja.forEach((item) => {
+            const row = `
+              <tr>
+                <td>${item.id}</td>
+                <td>${item.judul}</td>
+                <td>${item.sub_judul}</td>
+                <td>
+                  <button class="btn-edit" onclick="editProgramKerja(${item.id})">Edit</button>
+                  <button class="btn-delete" onclick="deleteProgramKerja(${item.id})">Delete</button>
+                </td>
+              </tr>
+            `;
+            tbody.innerHTML += row;
+          });
+        } catch (error) {
+          console.error("Error loading program kerja:", error);
+        }
+      }
+
+      function openModal(id = null) {
+        editingId = id;
+        document.getElementById("modal").style.display = "block";
+        document.getElementById("modalTitle").textContent = id
+          ? "Edit Program Kerja"
+          : "Tambah Program Kerja";
+        if (id) {
+          // Load data for editing
+          fetch(`${API_BASE}/program-kerja/${id}`)
+            .then((response) => response.json())
+            .then((data) => {
+              document.getElementById("judul").value = data.judul;
+              document.getElementById("sub_judul").value = data.sub_judul;
+              document.getElementById("description").value = JSON.stringify(
+                data.description
+              );
+              document.getElementById("kategori").value = data.kategori;
+            });
+        } else {
+          document.getElementById("programKerjaForm").reset();
+        }
+      }
+
+      function closeModal() {
+        document.getElementById("modal").style.display = "none";
+        editingId = null;
+      }
+
+      document
+        .getElementById("programKerjaForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const data = {
+            judul: document.getElementById("judul").value,
+            sub_judul: document.getElementById("sub_judul").value,
+            description: document.getElementById("description").value,
+          };
+
+          try {
+            const url = editingId
+              ? `${API_BASE}/program-kerja/${editingId}`
+              : `${API_BASE}/program-kerja`;
+            const method = editingId ? "PUT" : "POST";
+            const response = await fetch(url, {
+              method,
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(data),
+            });
+            if (response.ok) {
+              closeModal();
+              loadProgramKerja();
+            } else {
+              alert("Error saving program kerja");
+            }
+          } catch (error) {
+            console.error("Error saving program kerja:", error);
+          }
+        });
+
+      async function editProgramKerja(id) {
+        openModal(id);
+      }
+
+      async function deleteProgramKerja(id) {
+        if (confirm("Apakah Anda yakin ingin menghapus program kerja ini?")) {
+          try {
+            const response = await fetch(`${API_BASE}/program-kerja/${id}`, {
+              method: "DELETE",
+            });
+            if (response.ok) {
+              loadProgramKerja();
+            } else {
+              alert("Error deleting program kerja");
+            }
+          } catch (error) {
+            console.error("Error deleting program kerja:", error);
+          }
+        }
+      }
+
+      // Load data on page load
+      loadProgramKerja();
+    </script>
+  </body>
+</html>
