@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Header from "../components/Header";
 import Footer from "../components/Footer";
 import PageHeader from "../components/PageHeader";
 import usePublikasi from "../hooks/usePublikasi";
@@ -50,7 +49,7 @@ const PublikasiPage = () => {
 
   return (
     <>
-      <Header />
+
       <PageHeader
         title="DOKUMEN & PUBLIKASI BIDANG PEMBANGUNAN MANUSIA"
         description="Akses dan unduh laporan, data, dan hasil kajian terkini terkait IPM, pendidikan, dan kesehatan."

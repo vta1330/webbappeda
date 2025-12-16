@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Header from "../components/Header";
+// import Header from "../components/Header";
 import Footer from "../components/Footer";
 import PageHeader from "../components/PageHeader";
 
@@ -122,7 +122,7 @@ const BeritaPage = () => {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <PageHeader
         title="BERITA & KEGIATAN"
         description="Informasi terkini tentang kegiatan dan program BAPPEDA Bidang PPM"

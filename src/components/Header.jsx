@@ -11,41 +11,43 @@ const Header = ({ isAdmin = false }) => {
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth > 992) {
-        setIsMenuOpen(false); // Close menu on desktop size
+        setIsMenuOpen(false);
       }
     };
-
     window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   return (
     <header className="header">
       <div className="container navbar">
-        <div>
-          <img src="/assets/logo 1.png" alt="Logo Bappeda" />
-          {isAdmin && <span>ADMIN PANEL</span>}
+        
+        {/* LOGO */}
+        <div className="logo-wrapper">
+          <img
+            src="/assets/logo 1.png"
+            alt="Logo Bappeda"
+            className="logo-img"
+          />
+          {isAdmin && <span className="admin-badge">ADMIN PANEL</span>}
         </div>
-        <nav className={`main-nav ${isMenuOpen ? "main-nav-mobile-open" : ""}`}>
+
+        {/* NAV */}
+        <nav className={`main-nav ${isMenuOpen ? "open" : ""}`}>
           <Link to="/">BERANDA</Link>
           <Link to="/profil">PROFIL</Link>
-          <Link to="/program-kerja" className="active">
-            PROGRAM KERJA
-          </Link>
+          <Link to="/program-kerja">PROGRAM KERJA</Link>
           <Link to="/publikasi">PUBLIKASI</Link>
           <Link to="/kontak">KONTAK</Link>
         </nav>
+
+        {/* BUTTON */}
         <div className="nav-extra">
-          <button className="search-btn">
-            <i className="fas fa-search"></i>
-          </button>
           <button className="menu-toggle" onClick={handleMenuToggle}>
             <i className={`fas ${isMenuOpen ? "fa-times" : "fa-bars"}`}></i>
           </button>
         </div>
+
       </div>
     </header>
   );

@@ -1,5 +1,4 @@
 import React from "react";
-import Header from "../components/Header";
 import Footer from "../components/Footer";
 import PageHeader from "../components/PageHeader";
 import usePublikasiAdmin from "../hooks/usePublikasiAdmin";
@@ -235,7 +234,6 @@ const AdminPublikasiPage = () => {
 
   return (
     <>
-      <Header isAdmin={true} />
       <PageHeader
         title="KELOLA PUBLIKASI"
         description="Tambah, edit, dan hapus data publikasi dan dokumen"

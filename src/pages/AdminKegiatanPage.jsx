@@ -1,5 +1,4 @@
 import React from "react";
-import Header from "../components/Header";
 import Footer from "../components/Footer";
 import PageHeader from "../components/PageHeader";
 import useKegiatan from "../hooks/useKegiatan";
@@ -215,7 +214,6 @@ const AdminKegiatanPage = () => {
 
   return (
     <>
-      <Header isAdmin={true} />
       <PageHeader title="Admin Kegiatan" description="Kelola data kegiatan BAPPEDA" />
 
       <section className="container admin-container">

@@ -130,62 +130,96 @@ ul {
 }
 
 /* HEADER/NAVIGASI (from style.css & script.js logic) */
-.header {
-    background-color: var(--primary-color);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+./* HEADER */
+ .header{
+  width: 100%;
+  background: #fff;
+  border-bottom: 1px solid #eee;
 }
 
+/* NAVBAR */
 .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 80px;
 }
 
-.logo {
-    display: flex;
-    align-items: center;
-    color: var(--text-light);
-    font-size: 1.5em;
-    font-weight: bold;
+/* LOGO */
+.logo-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.logo img {
-    height: 50px;
-    margin-right: 20px;
-    filter: brightness(0) invert(1);
+.logo-img {
+  height: 55px;      /* ⬅️ logo TIDAK gede */
+  width: auto;
+  object-fit: contain;
 }
 
+/* ADMIN BADGE */
+.admin-badge {
+  font-size: 12px;
+  background: #e53935;
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+/* NAV DESKTOP */
 .main-nav {
-    display: flex; /* Default for desktop */
+  display: flex;
+  gap: 30px;
 }
 
 .main-nav a {
-    color: var(--text-light);
-    margin-left: 20px;
-    font-size: 0.9em;
-    padding: 5px 0;
-    transition: color 0.3s;
+  text-decoration: none;
+  font-weight: 600;
+  color: #333;
 }
 
-.main-nav a:hover {
-    color: var(--secondary-color);
-}
-
-.nav-extra button {
-    background: none;
-    border: none;
-    color: var(--text-light);
-    font-size: 1.2em;
-    cursor: pointer;
-    margin-left: 15px;
-}
-
+/* BUTTON */
 .menu-toggle {
-    display: none; /* Hidden on desktop */
+  display: none;
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+/* ===================== */
+/* RESPONSIVE MOBILE */
+/* ===================== */
+@media (max-width: 992px) {
+  .menu-toggle {
+    display: block;
+  }
+
+  .main-nav {
+    position: absolute;
+    top: 80px;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    flex-direction: column;
+    gap: 0;
+    display: none;
+    border-top: 1px solid #eee;
+  }
+
+  .main-nav.open {
+    display: flex;
+  }
+
+  .main-nav a {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+  }
+
+  .logo-img {
+    height: 45px; /* logo lebih kecil di HP */
+  }
 }
 
 /* FOOTER (from style.css & berita.html full footer) */

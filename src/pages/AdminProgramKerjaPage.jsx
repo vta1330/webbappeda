@@ -1,5 +1,4 @@
 import React from "react";
-import Header from "../components/Header";
 import Footer from "../components/Footer";
 import PageHeader from "../components/PageHeader";
 import useProgramKerja from "../hooks/useProgramKerja";
@@ -183,7 +182,6 @@ const AdminProgramKerjaPage = () => {
 
   return (
     <>
-      <Header isAdmin={true} />
       <PageHeader
         title="Admin Program Kerja"
         description="Kelola data program kerja BAPPEDA"

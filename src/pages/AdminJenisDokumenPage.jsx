@@ -1,5 +1,4 @@
 import React from "react";
-import Header from "../components/Header";
 import Footer from "../components/Footer";
 import PageHeader from "../components/PageHeader";
 import useJenisDokumen from "../hooks/useJenisDokumen";
@@ -119,7 +118,6 @@ const AdminJenisDokumenPage = () => {
 
   return (
     <>
-      <Header isAdmin={true} />
       <PageHeader
         title="KELOLA JENIS DOKUMEN"
         description="Tambah, edit, dan hapus kategori jenis dokumen"

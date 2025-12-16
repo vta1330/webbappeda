@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Header from "../components/Header";
+// import Header from "../components/Header";
 import Footer from "../components/Footer";
 import PageHeader from "../components/PageHeader";
 
@@ -29,7 +29,7 @@ const KontakPage = () => {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <PageHeader
         title="HUBUNGI KAMI"
         description="Kami siap melayani pertanyaan, saran, dan masukan Anda terkait perencanaan pembangunan daerah."

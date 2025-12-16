@@ -1,5 +1,4 @@
 import React from "react";
-import Header from "../components/Header";
 import Footer from "../components/Footer";
 import PageHeader from "../components/PageHeader";
 
@@ -45,7 +44,6 @@ const AdminDashboardPage = () => {
   return (
     <>
       {/* Custom Header for Admin Page */}
-      <Header isAdmin={true} />
       <PageHeader
         title="DASHBOARD ADMINISTRATOR"
         description="Kelola data kegiatan, publikasi, program kerja, dan jenis dokumen"
