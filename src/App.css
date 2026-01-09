@@ -18,10 +18,11 @@ body {
     line-height: 1.6;
     color: var(--text-dark);
     background-color: white;
+    display: block !important;
 }
 
 .container {
-    max-width: 1200px;
+    width: 100%;
     margin: 0 auto;
     padding: 0 20px;
 }
@@ -314,7 +315,7 @@ ul {
 
 /* News Content (from berita.html) */
 .news-content {
-    padding: 50px 0;
+    padding: 50px 50px;
 }
 .news-header {
     text-align: center;
@@ -323,6 +324,7 @@ ul {
 .news-header h1 {
     color: var(--primary-color);
     margin-bottom: 10px;
+    width: max-content;
 }
 .news-header p {
     color: #666;

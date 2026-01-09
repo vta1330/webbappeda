@@ -1,4 +1,3 @@
-import React from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import "./App.css";
 
@@ -26,7 +25,7 @@ const AppLayout = () => {
   return (
     <>
       <Header isAdmin={isAdmin} />
-
+      
       <Routes>
         {/* PUBLIC */}
         <Route path="/" element={<BeritaPage />} />

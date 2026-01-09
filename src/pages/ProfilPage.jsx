@@ -1,5 +1,4 @@
 import React from "react";
-import Header from "../components/Header";
 import Footer from "../components/Footer";
 import PageHeader from "../components/PageHeader";
 
@@ -45,7 +44,7 @@ const ProfilPage = () => {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <PageHeader
         title="PROFIL BIDANG PERENCANAAN PEMBANGUNAN MANUSIA (PPM)"
         description="Memahami peran strategis, struktur, dan komitmen kami dalam meningkatkan kualitas hidup masyarakat."
